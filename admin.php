@@ -1,13 +1,16 @@
 <?php
 $data = json_decode(file_get_contents('projects.json'), true) ?? [];
-$project_name = $_GET['project_name'] ?? '';
+$project_name = $_GET['project_name'] ?? null;
 $project_data = [];
-foreach ($data as $key => $project) {
-    if ($project['title'] === $project_name) {
-        $project_data = $project;
-        break;
+if(isset($project_name)) {
+    foreach ($data as $key => $project) {
+        if ($project['title'] === $project_name) {
+            $project_data = $project;
+            break;
+        }
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="ru">
@@ -22,15 +25,15 @@ foreach ($data as $key => $project) {
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-md-6">
-                <h2 class="mb-4"><?= isset($project_data) ? $project_data['title'] : 'Новый проект' ?></h2>
+                <h2 class="mb-4"><?= isset($project_name) ? $project_data['title'] : 'Новый проект' ?></h2>
                 <form method="POST" action="save.php" class="p-4 border rounded bg-light">
-                    <input type="text" name="title" placeholder="Название" class="form-control mb-2" required value="<?= $project_data['title'] ? $project_data['title'] : ''?>">
-                    <textarea name="description" placeholder="Описание" class="form-control mb-2"><?= $project_data['description'] ? $project_data['description'] : ''?></textarea>
-                    <input type="url" name="link" placeholder="Ссылка" class="form-control mb-2" value="<?= $project_data['link'] ? $project_data['link'] : ''?>">
-                    <input type="url" name="image" placeholder="URL картинки" class="form-control mb-2" value="<?= $project_data['image'] ? $project_data['image'] : ''?>">
+                    <input type="text" name="title" placeholder="Название" class="form-control mb-2" required value="<?= isset($project_name) ? $project_data['title'] : ''?>">
+                    <textarea name="description" placeholder="Описание" class="form-control mb-2"><?= isset($project_name) ? $project_data['description'] : ''?></textarea>
+                    <input type="url" name="link" placeholder="Ссылка" class="form-control mb-2" value="<?= isset($project_name) ? $project_data['link'] : ''?>">
+                    <input type="url" name="image" placeholder="URL картинки" class="form-control mb-2" value="<?= isset($project_name) ? $project_data['image'] : ''?>">
                     <input type="datetime-local" name="date" placeholder="Дата" class="form-control mb-2" value="<?= !empty($project_data['date']) ? $project_data['date'] : ''?>">
                     <button type="submit" class="btn btn-primary">Сохранить</button>
-                    <a href="index.php" class="btn btn-secondary">Назад</a>
+                    <a href="/index.php" class="btn btn-secondary">Назад</a>
                 </form>
             </div>
         </div>

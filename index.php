@@ -33,7 +33,7 @@ $projects = json_decode(file_get_contents('projects.json'), true) ?? [];
                 <div class="card-body">
                     <h5 class="card-title"><?= $project['title'] ?></h5>
                     <p class="card-text"><?= $project['description'] ?></p>
-                    <a href="admin.php?project_name=<?= $project['title'] ?>" class="btn btn-primary" target="_blank">Редактировать</a>
+                    <a href="/admin.php?project_name=<?= $project['title'] ?>" class="btn btn-primary" target="_blank">Редактировать</a>
                     <a href="<?= $project['link'] ?>" class="btn btn-primary" target="_blank">Смотреть</a>
                     <a href="?delete=<?= $key ?>" class="btn btn-danger" onclick="return confirm('Удалить проект?')">Удалить</a>
                 </div>
